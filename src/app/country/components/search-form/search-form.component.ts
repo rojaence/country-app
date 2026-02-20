@@ -10,7 +10,7 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 export class SearchFormComponent {
   private formBuilder = inject(FormBuilder);
   placeholder = input<string>();
-  onSubmit = output<string>();
+  submit = output<string>();
 
   countryForm = this.formBuilder.group({
     search: ['']
@@ -18,6 +18,6 @@ export class SearchFormComponent {
 
   handleSubmit() {
     if (this.countryForm.controls.search.value)
-    this.onSubmit.emit(this.countryForm.controls.search.value);
+    this.submit.emit(this.countryForm.controls.search.value);
   }
 }
