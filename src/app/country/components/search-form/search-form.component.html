@@ -1,0 +1,12 @@
+<section class="flex flex-row gap-2 mt-2">
+  <form [formGroup]="countryForm" (ngSubmit)="handleSubmit()">
+    <input
+      type="text"
+      formControlName="search"
+      class="input input-bordered mr-2 w-56"
+      [placeholder]="placeholder()"
+      autofocus
+    >
+    <button type="submit" class="btn btn-primary">Buscar</button>
+  </form>
+</section>
