@@ -3,7 +3,7 @@
     <!-- head -->
     <thead>
       <tr>
-        <th>#</th>
+        <th>Código</th>
         <th>Ícono</th>
         <th>Bandera</th>
         <th>Nombre</th>
@@ -15,10 +15,14 @@
       @for (country of countries(); track country.cca3) {
         <tr>
           <th>{{ country.cca3 }}</th>
-          <td><img src="{{ country.flags.png }}" alt="{{ country.name.common }} flag" width="30"></td>
+          <th>{{ country.flag }}</th>
+          <td><img src="{{ country.flags.png }}" alt="{{ country.name.common }} flag" width="50"></td>
           <td>{{ country.name.common }}</td>
           <td>{{ country.capital ? country.capital[0] : 'N/A' }}</td>
           <td>{{ country.population }}</td>
+          <td>
+            <a href="#" class="link-primary cursor-pointer">Más información</a>
+          </td>
         </tr>
       }
     </tbody>
