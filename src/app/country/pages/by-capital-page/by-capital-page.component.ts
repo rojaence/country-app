@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { SearchFormComponent } from "../../components/search-form/search-form.component";
 import { ListComponent } from "../../components/list/list.component";
+import { CountryService } from '../../services/country.service';
 
 
 @Component({
@@ -10,4 +11,15 @@ import { ListComponent } from "../../components/list/list.component";
   styles: ``
 })
 export class ByCapitalPageComponent {
+
+  countryService = inject(CountryService);
+
+  onSearch(query: string) {
+    console.log('🚀 ~ ByCapitalPageComponent ~ onSearch ~ query:', query);
+    this.countryService.searchByCapital(query).subscribe({
+      next: (value) => {
+        console.log('🚀 ~ ByCapitalPageComponent ~ onSearch ~ value:', value);
+      },
+    })
+  }
 }

@@ -1,5 +1,5 @@
 <section class="flex flex-row gap-2 mt-2">
-  <form [formGroup]="countryForm" (ngSubmit)="handleSubmit()">
+  <form [formGroup]="countryForm" (ngSubmit)="handleSubmit($event)">
     <input
       type="text"
       formControlName="search"

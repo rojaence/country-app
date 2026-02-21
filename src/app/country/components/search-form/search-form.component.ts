@@ -16,7 +16,8 @@ export class SearchFormComponent {
     search: ['']
   })
 
-  handleSubmit() {
+  handleSubmit(event: SubmitEvent) {
+    event.stopPropagation();
     if (this.countryForm.controls.search.value)
     this.submit.emit(this.countryForm.controls.search.value);
   }
