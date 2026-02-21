@@ -16,8 +16,8 @@
         <tr>
           <th>{{ country.cca3 }}</th>
           <th>{{ country.flag }}</th>
-          <td><img src="{{ country.flags.png }}" alt="{{ country.name.common }} flag" width="50"></td>
-          <td>{{ country.name.common }}</td>
+          <td><img src="{{ country.flagSvg }}" alt="{{ country.name }} flag" width="50"></td>
+          <td>{{ country.name }}</td>
           <td>{{ country.capital ? country.capital[0] : 'N/A' }}</td>
           <td>{{ country.population }}</td>
           <td>

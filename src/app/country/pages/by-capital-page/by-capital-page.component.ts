@@ -2,7 +2,7 @@ import { Component, inject, signal } from '@angular/core';
 import { SearchFormComponent } from "../../components/search-form/search-form.component";
 import { ListComponent } from "../../components/list/list.component";
 import { CountryService } from '../../services/country.service';
-import { RESTCountry } from '../../interfaces/rest-countries.interfaces';
+import { Country } from '../../interfaces/country.interface';
 
 
 @Component({
@@ -14,7 +14,7 @@ import { RESTCountry } from '../../interfaces/rest-countries.interfaces';
 export class ByCapitalPageComponent {
 
   countryService = inject(CountryService);
-  countries = signal<RESTCountry[]>([]);
+  countries = signal<Country[]>([]);
 
   onSearch(query: string) {
     this.countryService.searchByCapital(query)?.subscribe({

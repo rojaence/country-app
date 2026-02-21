@@ -1,7 +1,9 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries.interfaces';
-import { catchError, tap } from 'rxjs';
+import { catchError, map, tap } from 'rxjs';
+import { CountryMapper } from '../mappers/country.mapper';
+import { Country } from '../interfaces/country.interface';
 
 const API_URL = 'https://restcountries.com/v3.1';
 
@@ -13,7 +15,7 @@ export class CountryService {
 
   isLoading = signal(false);
   isError = signal<string | null>(null);
-  countries = signal<RESTCountry[]>([]);
+  countries = signal<Country[]>([]);
 
   searchByCapital(query: string) {
     if (this.isLoading()) return;
@@ -23,7 +25,8 @@ export class CountryService {
     query = query.toLocaleLowerCase();
     return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`)
     .pipe(
-      tap((response: RESTCountry[]) => {
+      map((res) => CountryMapper.toCountries(res)),
+      tap((response: Country[]) => {
         this.countries.set(response);
         this.isLoading.set(false);
       }),
