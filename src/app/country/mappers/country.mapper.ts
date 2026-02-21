@@ -9,7 +9,7 @@ export class CountryMapper {
       flag: restCountry.flag,
       flagSvg: restCountry.flags.svg,
       name: restCountry.name.official,
-      capital: restCountry.capital[0],
+      capital: restCountry.capital.join(', '),
       population: restCountry.population
     }
   }
