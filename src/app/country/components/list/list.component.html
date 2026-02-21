@@ -12,6 +12,15 @@
       </tr>
     </thead>
     <tbody>
+      @for (country of countries(); track country.cca3) {
+        <tr>
+          <th>{{ country.cca3 }}</th>
+          <td><img src="{{ country.flags.png }}" alt="{{ country.name.common }} flag" width="30"></td>
+          <td>{{ country.name.common }}</td>
+          <td>{{ country.capital ? country.capital[0] : 'N/A' }}</td>
+          <td>{{ country.population }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>
