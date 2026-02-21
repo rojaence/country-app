@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
 import { RESTCountry } from '../interfaces/rest-countries.interfaces';
-import { catchError, map, tap } from 'rxjs';
+import { catchError, map, tap, throwError } from 'rxjs';
 import { CountryMapper } from '../mappers/country.mapper';
 import { Country } from '../interfaces/country.interface';
 
@@ -33,7 +33,8 @@ export class CountryService {
       catchError((error) => {
         this.isError.set(error.message);
         this.isLoading.set(false);
-        throw error;
+        this.countries.set([]);
+        return throwError(() => new Error(`Error al buscar por capital con query: ${query}`));
       })
     );
   }

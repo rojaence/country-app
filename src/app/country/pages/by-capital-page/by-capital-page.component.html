@@ -1,2 +1,8 @@
 <country-search-form placeholder="Buscar por capital" (submit)="onSearch($event)"></country-search-form>
-<country-list [countries]="countries()"></country-list>
+@if (isError()) {
+  <div class="alert alert-error mt-4">
+    <span>{{ isError() }}</span>
+  </div>
+} @else {
+  <country-list [countries]="countryService.countries()"></country-list>
+}
