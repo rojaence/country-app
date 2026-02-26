@@ -38,4 +38,15 @@ export class CountryService {
       })
     );
   }
+
+  searchByCountry(query: string) {
+    query = query.toLowerCase();
+    return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
+    .pipe(
+      map((res) => CountryMapper.toCountries(res)),
+      catchError((error) => {
+        return throwError(() => new Error(`Error al buscar por pais con query: ${query}`));
+      })
+    )
+  }
 }
