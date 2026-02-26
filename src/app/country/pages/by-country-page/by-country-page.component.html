@@ -1,9 +1,11 @@
-<country-search-form placeholder="Buscar por país"  (submit)="onSearch($event)"></country-search-form>
+<country-search-form placeholder="Buscar por país"  (submit)="query.set($event)"></country-search-form>
 
-@if (isError()) {
+@if (countryResource.error()) {
   <div class="alert alert-error mt-4">
-    <span>{{ isError() }}</span>
+    <span>{{ countryResource.error() }}</span>
   </div>
-} @else {
-  <country-list [countries]="countries()"></country-list>
+}
+
+@if (countryResource.value()) {
+  <country-list [countries]="countryResource.value()!"></country-list>
 }

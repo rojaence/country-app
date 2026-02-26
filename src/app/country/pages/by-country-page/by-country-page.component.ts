@@ -2,7 +2,8 @@ import { Component, inject, signal } from '@angular/core';
 import { SearchFormComponent } from "../../components/search-form/search-form.component";
 import { ListComponent } from "../../components/list/list.component";
 import { CountryService } from '../../services/country.service';
-import { finalize } from 'rxjs';
+import { rxResource } from '@angular/core/rxjs-interop';
+import { finalize, of } from 'rxjs';
 import { Country } from '../../interfaces/country.interface';
 
 @Component({
@@ -13,7 +14,9 @@ import { Country } from '../../interfaces/country.interface';
 })
 export class ByCountryPageComponent {
   countryService = inject(CountryService);
-  isError = signal<string | null>(null);
+
+  // Forma tradicional de manejar el estado de una peticion
+  /* isError = signal<string | null>(null);
   isLoading = signal<boolean>(false);
   countries = signal<Country[]>([]);
 
@@ -35,5 +38,16 @@ export class ByCountryPageComponent {
           this.isError.set(err.message);
         }
       })
-  }
+  } */
+
+  // Forma de manejar el estado de la peticion con rxResource
+  query = signal('');
+
+  countryResource = rxResource({
+    request: () => ({ query: this.query() }),
+    loader: ({ request }) => {
+      if (!request.query) return of([]);
+      return this.countryService.searchByCountry(request.query)
+    }
+  })
 }
