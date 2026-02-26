@@ -25,6 +25,20 @@
           </td>
         </tr>
       }
+
+      @if (isEmpty() && !isLoading() && !errorMessage()) {
+        <tr>
+          <td colspan="6" class="text-center">No se encontraron países.</td>
+        </tr>
+      } @else if (isLoading()) {
+        <tr>
+          <td colspan="6" class="text-center">Cargando...</td>
+        </tr>
+      } @else if (errorMessage()) {
+        <tr>
+          <td colspan="6" class="text-center text-error">{{ errorMessage() }}</td>
+        </tr>
+      }
     </tbody>
   </table>
 </div>
