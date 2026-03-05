@@ -1,14 +1,14 @@
-import { HttpClient } from '@angular/common/http';
-import { inject, Injectable, signal } from '@angular/core';
-import { RESTCountry } from '../interfaces/rest-countries.interfaces';
-import { catchError, delay, map, tap, throwError } from 'rxjs';
-import { CountryMapper } from '../mappers/country.mapper';
-import { Country } from '../interfaces/country.interface';
+import { HttpClient } from "@angular/common/http";
+import { inject, Injectable, signal } from "@angular/core";
+import { RESTCountry } from "../interfaces/rest-countries.interfaces";
+import { catchError, delay, map, tap, throwError } from "rxjs";
+import { CountryMapper } from "../mappers/country.mapper";
+import { Country } from "../interfaces/country.interface";
 
-const API_URL = 'https://restcountries.com/v3.1';
+const API_URL = "https://restcountries.com/v3.1";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class CountryService {
   private readonly http = inject(HttpClient);
@@ -23,8 +23,7 @@ export class CountryService {
     this.isError.set(null);
 
     query = query.toLocaleLowerCase();
-    return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`)
-    .pipe(
+    return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`).pipe(
       map((res) => CountryMapper.toCountries(res)),
       tap((response: Country[]) => {
         this.countries.set(response);
@@ -34,21 +33,24 @@ export class CountryService {
         this.isError.set(error.message);
         this.isLoading.set(false);
         this.countries.set([]);
-        return throwError(() => new Error(`Error al buscar por capital con query: ${query}`));
-      })
+        return throwError(
+          () => new Error(`Error al buscar por capital con query: ${query}`),
+        );
+      }),
     );
   }
 
   searchByCountry(query: string) {
     query = query.toLowerCase();
-    return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`)
-    .pipe(
+    return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`).pipe(
       map((res) => CountryMapper.toCountries(res)),
       delay(3000),
       catchError((error) => {
-        return throwError(() => new Error(`Error al buscar por pais con query: ${query}`));
-      })
-    )
+        return throwError(
+          () => new Error(`Error al buscar por pais con query: ${query}`),
+        );
+      }),
+    );
   }
 
   searchCountryByAlphaCode(code: string) {
@@ -57,8 +59,10 @@ export class CountryService {
       map((res) => CountryMapper.toCountries(res)),
       map((countries) => countries.at(0)),
       catchError((error) => {
-        return throwError(() => new Error(`Error al buscar por pais con codigo: ${code}`));
-      })
-    )
+        return throwError(
+          () => new Error(`Error al buscar por pais con codigo: ${code}`),
+        );
+      }),
+    );
   }
 }
