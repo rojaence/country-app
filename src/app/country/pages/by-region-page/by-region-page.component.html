@@ -1,7 +1,7 @@
-<div class="flex gap-2">
+<div class="flex gap-2 flex-wrap">
   @for (item of regions(); track $index) {
     <button
-      class="btn btn-outline btn-info"
+      class="btn btn-outline btn-info w-30"
       [ngClass]="{'btn-active': selectedRegion() === item }"
       (click)="selectedRegion.set(item)"
       >{{ item }}</button>
