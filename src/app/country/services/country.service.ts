@@ -18,7 +18,8 @@ export class CountryService {
   isError = signal<string | null>(null);
   countries = signal<Country[]>([]);
 
-  cache = inject(CountryCacheService);
+  cacheCapital = inject(CountryCacheService);
+  cacheCountry = inject(CountryCacheService);
 
   searchByCapital(query: string) {
     if (this.isLoading()) return;
@@ -26,14 +27,14 @@ export class CountryService {
     this.isError.set(null);
 
     query = query.toLocaleLowerCase();
-    const cacheResult = this.cache.getCache(query);
+    const cacheResult = this.cacheCapital.getCache(query);
     if (cacheResult) return of(cacheResult);
     return this.http.get<RESTCountry[]>(`${API_URL}/capital/${query}`).pipe(
       map((res) => CountryMapper.toCountries(res)),
       tap((response: Country[]) => {
         this.countries.set(response);
         this.isLoading.set(false);
-        this.cache.updateCache({key: query, value: response})
+        this.cacheCapital.updateCache({key: query, value: response})
       }),
       catchError((error) => {
         this.isError.set(error.message);
@@ -48,11 +49,11 @@ export class CountryService {
 
   searchByCountry(query: string) {
     query = query.toLowerCase();
-    const cacheResult = this.cache.getCache(query);
+    const cacheResult = this.cacheCountry.getCache(query);
     if (cacheResult) return of(cacheResult);
     return this.http.get<RESTCountry[]>(`${API_URL}/name/${query}`).pipe(
       map((res) => CountryMapper.toCountries(res)),
-      tap((val) => this.cache.updateCache({key: query, value: val})),
+      tap((val) => this.cacheCountry.updateCache({key: query, value: val})),
       delay(3000),
       catchError((error) => {
         return throwError(
