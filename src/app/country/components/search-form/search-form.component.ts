@@ -14,7 +14,6 @@ export class SearchFormComponent {
 
   debounceTime = effect((onCleanup) => {
     const value = this.value();
-    console.log('🚀 ~ SearchFormComponent ~ value:', value);
     const timeout = setTimeout(() => {
       this.submit.emit(value);
     }, 500);
