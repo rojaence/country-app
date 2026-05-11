@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, effect, inject, signal } from '@angular/core';
 import { SearchFormComponent } from "../../components/search-form/search-form.component";
 import { ListComponent } from "../../components/list/list.component";
 import { CountryService } from '../../services/country.service';
@@ -47,7 +47,8 @@ export class ByCountryPageComponent {
     request: () => ({ query: this.query() }),
     loader: ({ request }) => {
       if (!request.query) return of([]);
-      return this.countryService.searchByCountry(request.query)
+      console.log('🚀 ~ ByCountryPageComponent ~ query:', request.query);
+      return this.countryService.searchByCountry(request.query);
     }
-  })
+  });
 }

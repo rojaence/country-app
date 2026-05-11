@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, effect, inject, input, output, signal } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
 
 @Component({
@@ -8,17 +8,19 @@ import { ReactiveFormsModule, FormBuilder } from '@angular/forms';
   styles: ``
 })
 export class SearchFormComponent {
-  private formBuilder = inject(FormBuilder);
   placeholder = input<string>();
   submit = output<string>();
+  value = signal('');
 
-  countryForm = this.formBuilder.group({
-    search: ['']
-  })
+  debounceTime = effect((onCleanup) => {
+    const value = this.value();
+    console.log('🚀 ~ SearchFormComponent ~ value:', value);
+    const timeout = setTimeout(() => {
+      this.submit.emit(value);
+    }, 500);
 
-  handleSubmit(event: SubmitEvent) {
-    event.stopPropagation();
-    if (this.countryForm.controls.search.value)
-    this.submit.emit(this.countryForm.controls.search.value);
-  }
+    onCleanup(() => {
+      clearTimeout(timeout);
+    });
+  });
 }

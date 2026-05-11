@@ -1,12 +1,12 @@
 <section class="flex flex-row gap-2 mt-2">
-  <form [formGroup]="countryForm" (ngSubmit)="handleSubmit($event)">
     <input
       type="text"
-      formControlName="search"
       class="input input-bordered mr-2 w-56"
       [placeholder]="placeholder()"
+      #txtSearch
+      (keyup.enter)="submit.emit(txtSearch.value)"
+      (keyup)="value.set(txtSearch.value)"
       autofocus
     >
     <button type="submit" class="btn btn-primary">Buscar</button>
-  </form>
 </section>
